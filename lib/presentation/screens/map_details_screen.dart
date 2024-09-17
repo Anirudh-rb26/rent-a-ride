@@ -1,0 +1,249 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:rentaride/data/models/car_model.dart';
+
+class MapDetailsScreen extends StatelessWidget {
+  final Car car;
+
+  const MapDetailsScreen({
+    super.key,
+    required this.car,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            color: Colors.black,
+          ),
+        ),
+      ),
+      body: Stack(
+        children: [
+          // Map
+          FlutterMap(
+            options: const MapOptions(initialCenter: LatLng(51, -0.09), initialZoom: 13),
+            children: [
+              TileLayer(
+                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                userAgentPackageName: 'com.example.rentaride',
+              ),
+            ],
+          ),
+
+          // CarDetaislCard
+          Positioned(
+            bottom: -10,
+            left: 0,
+            right: 0,
+            child: carDetailsCard(car),
+          ),
+
+          // FloatingCar Image
+          Positioned(
+            bottom: 215,
+            right: 20,
+            child: Image.asset('assets/white_car.png'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+Widget carDetailsCard(Car car) {
+  return SizedBox(
+    height: 350,
+    child: Stack(
+      children: [
+        // Transparent Card
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            color: Colors.black54,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black38,
+                spreadRadius: 0,
+                blurRadius: 10,
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // CarModel Name
+              Text(
+                car.model,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+
+              // Gap
+              const SizedBox(height: 10),
+
+              // CarDetails Info
+              Row(
+                children: [
+                  // DistanceTravelled
+                  const Icon(
+                    Icons.directions_car,
+                    color: Colors.white,
+                    size: 16,
+                  ),
+
+                  // Gap
+                  const SizedBox(width: 5),
+
+                  Text(
+                    "${car.distance} km",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+
+                  // Gap
+                  const SizedBox(width: 10),
+
+                  // FuelCapacity
+                  const Icon(
+                    Icons.battery_full,
+                    color: Colors.white,
+                    size: 16,
+                  ),
+
+                  // Gap
+                  const SizedBox(width: 5),
+
+                  Text(
+                    "${car.fuelCapacity} km",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+
+        // WhiteCard
+        Positioned(
+          bottom: 10,
+          left: 0,
+          right: 0,
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(20),
+                topLeft: Radius.circular(20),
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // FeaturesTitle
+                const Text(
+                  "Features",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+
+                // FeatureIcons
+                featureIcons(),
+
+                // Gap
+                const SizedBox(height: 20),
+
+                // PricePerHour & BookNow Button
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // PricePerHour Text
+                    Text(
+                      "\$${car.pricePerHour}/hour",
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    // BookNow Button
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xff212020),
+                      ),
+                      child: const Text(
+                        "Book Now",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget featureIcons() {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceAround,
+    children: [
+      featureIcon(Icons.local_gas_station_rounded, "Diesel", "Fuel Type"),
+      featureIcon(Icons.speed_rounded, "4.6s", "0 - 60 kmph"),
+      featureIcon(Icons.terrain_rounded, "4WD", "Drive Train"),
+    ],
+  );
+}
+
+Widget featureIcon(IconData icon, String title, String subTitle) {
+  return Container(
+    width: 100,
+    height: 100,
+    padding: const EdgeInsets.all(5),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(10),
+      border: Border.all(
+        color: Colors.grey,
+        width: 1,
+      ),
+    ),
+    child: Column(
+      children: [
+        Icon(icon, size: 28),
+        const SizedBox(height: 10),
+        Text(
+          subTitle,
+          style: const TextStyle(color: Colors.black54),
+        ),
+        Text(
+          title,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ],
+    ),
+  );
+}
