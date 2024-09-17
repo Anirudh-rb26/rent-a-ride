@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1091613343921",
+    "project_id": "rent-a-ride-67979",
+    "storage_bucket": "rent-a-ride-67979.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1091613343921:android:80ba19597f0f3a4b0a2290",
+        "android_client_info": {
+          "package_name": "com.example.rentaride"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCwKMZlnIS3-qkdm09T_VBiik6PDbn9Zo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
