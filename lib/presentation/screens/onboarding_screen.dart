@@ -62,7 +62,7 @@ class OnBoardingScreen extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => CarListScreen()),
+                          MaterialPageRoute(builder: (context) => const CarListScreen()),
                           (route) => false,
                         );
                       },
